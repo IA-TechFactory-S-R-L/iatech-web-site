@@ -1,0 +1,8 @@
+{
+  "name": "IATECH - Infraestructura Operativa Total",
+  "description": "Sitio corporativo B2B para IATECH, un holding tecnológico especializado en Soundbox, SaaS y logística operativa.",
+  "requestFramePermissions": [
+    "microphone",
+    "geolocation"
+  ]
+}
