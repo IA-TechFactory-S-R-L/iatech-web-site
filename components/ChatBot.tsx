@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChatMessage } from "../types";
 
+//@ts-ignore
 const N8N_WEBHOOK = import.meta.env.VITE_N8N_WEBHOOK_URL;
 
 const ChatBot: React.FC = () => {
