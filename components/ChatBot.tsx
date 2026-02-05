@@ -1,26 +1,59 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChatMessage } from "../types";
 
-//@ts-ignore
-const N8N_WEBHOOK = import.meta.env.VITE_N8N_WEBHOOK_URL;
+const N8N_WEBHOOK =
+  "https://nicolas-iatech.app.n8n.cloud/webhook/00ecea9a-7115-4ea9-a48a-8a0853a2f1cf/chat";
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [sessionId, setSessionId] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: "model",
-      text: "Hola, soy el asistente virtual de IATECH. ¿En qué puedo ayudarte?",
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    const hasSession = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("chat_session_active="));
+
+    if (!hasSession) {
+      localStorage.removeItem("chat_history");
+      localStorage.removeItem("chat_session_id");
+      document.cookie = "chat_session_active=true; path=/";
+    }
+
+    const savedMessages = localStorage.getItem("chat_history");
+    return savedMessages
+      ? JSON.parse(savedMessages)
+      : [
+          {
+            role: "model",
+            text: "Hola, soy el asistente virtual de IATECH. ¿En qué puedo ayudarte?",
+          },
+        ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("chat_history", JSON.stringify(messages));
+  }, [messages]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const generateUUID = () => {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      },
+    );
+  };
 
   useEffect(() => {
     let storedSessionId = localStorage.getItem("chat_session_id");
     if (!storedSessionId) {
-      storedSessionId = crypto.randomUUID();
+      storedSessionId = generateUUID();
       localStorage.setItem("chat_session_id", storedSessionId);
     }
     setSessionId(storedSessionId);
@@ -32,17 +65,13 @@ const ChatBot: React.FC = () => {
 
   useEffect(scrollToBottom, [messages, isLoading]);
 
-  const sendMessageToN8n = async (message: string) => {
+  const sendMessageToN8n = async (chatInput: string) => {
     const res = await fetch(N8N_WEBHOOK, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         sessionId,
-        message,
-        history: messages.map((m) => ({
-          role: m.role,
-          text: m.text,
-        })),
+        chatInput,
       }),
     });
 
@@ -85,7 +114,69 @@ const ChatBot: React.FC = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleSend();
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const formatMessage = (text: string) => {
+    const lines = text.split("\n");
+    const elements: React.ReactNode[] = [];
+    let currentList: React.ReactNode[] = [];
+
+    const parseBold = (str: string) => {
+      const parts = str.split(/(\*\*.*?\*\*)/g);
+      return parts.map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        return part;
+      });
+    };
+
+    lines.forEach((line, index) => {
+      const trimmed = line.trim();
+      const isListItem = trimmed.startsWith("* ") || trimmed.startsWith("- ");
+
+      if (isListItem) {
+        const content = trimmed.substring(2);
+        currentList.push(
+          <li key={`li-${index}`} className="ml-4 list-disc">
+            {parseBold(content)}
+          </li>,
+        );
+      } else {
+        if (currentList.length > 0) {
+          elements.push(
+            <ul key={`ul-${index}`} className="my-2 p-0">
+              {currentList}
+            </ul>,
+          );
+          currentList = [];
+        }
+
+        if (trimmed === "") {
+          elements.push(<br key={`br-${index}`} />);
+        } else {
+          elements.push(
+            <div key={`div-${index}`} className="mb-1">
+              {parseBold(line)}
+            </div>,
+          );
+        }
+      }
+    });
+
+    if (currentList.length > 0) {
+      elements.push(
+        <ul key={`ul-end`} className="my-2 p-0">
+          {currentList}
+        </ul>,
+      );
+    }
+
+    return elements;
   };
 
   return (
@@ -158,7 +249,7 @@ const ChatBot: React.FC = () => {
                       : "bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700"
                   }`}
                 >
-                  {msg.text}
+                  {formatMessage(msg.text)}
                 </div>
               </div>
             ))}
@@ -182,17 +273,18 @@ const ChatBot: React.FC = () => {
           {/* Input */}
           <div className="p-4 bg-slate-900/50 border-t border-slate-700">
             <div className="flex gap-2">
-              <input
+              <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Escribe tu consulta..."
-                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-indigo-500 placeholder-slate-500"
+                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-indigo-500 placeholder-slate-500 resize-none h-10 min-h-[40px] max-h-[100px]"
+                style={{ scrollbarWidth: "none" }}
               />
               <button
                 onClick={handleSend}
                 disabled={isLoading}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg disabled:opacity-50 transition-colors"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg disabled:opacity-50 transition-colors h-10"
               >
                 <svg
                   className="w-5 h-5"

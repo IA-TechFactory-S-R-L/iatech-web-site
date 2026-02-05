@@ -10,11 +10,10 @@ View your app in AI Studio: https://ai.studio/apps/drive/1UbrtCJA-0Hb7NNiRaP9mCF
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Set the `VITE_N8N_WEBHOOK_URL` in [.env](.env) to your n8n webhook URL
 3. Run the app:
    `npm run dev`
