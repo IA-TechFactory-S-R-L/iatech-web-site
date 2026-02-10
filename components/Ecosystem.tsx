@@ -29,7 +29,7 @@ const Ecosystem: React.FC = () => {
             <RevealOnScroll delay={200}>
               <div className="glass p-6 rounded-xl hover:bg-white/10 transition-colors border-l-4 border-indigo-500">
                 <h4 className="text-xl font-bold text-indigo-300 mb-2">Soundbox IoT</h4>
-                <p className="text-slate-400 text-sm">Hardware propietario para validación de pagos en tiempo real. Confirmación auditiva y visual instantánea.</p>
+                <p className="text-slate-400 text-sm"><span className="text-indigo-200 font-medium">Hardware propietario</span> para validación de pagos en tiempo real. Confirmación auditiva y visual instantánea.</p>
               </div>
             </RevealOnScroll>
             
@@ -55,7 +55,7 @@ const Ecosystem: React.FC = () => {
             <RevealOnScroll delay={200}>
               <div className="glass p-6 rounded-xl hover:bg-white/10 transition-colors border-l-4 border-cyan-500">
                 <h4 className="text-xl font-bold text-cyan-300 mb-2">Integración de Sistemas</h4>
-                <p className="text-slate-400 text-sm">Conectamos tus sistemas legados (ERP, Core Bancario) con nuevas tecnologías vía APIs seguras.</p>
+                <p className="text-slate-400 text-sm">Conectamos tus sistemas legados <span className="text-cyan-200 font-medium">(ERP, Core Bancario)</span> con nuevas tecnologías vía <span className="text-cyan-200 font-medium">APIs seguras</span>, sin interrumpir tu operación actual.</p>
               </div>
             </RevealOnScroll>
 

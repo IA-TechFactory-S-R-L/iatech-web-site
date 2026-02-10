@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChatMessage } from "../types";
 
-const N8N_WEBHOOK =
-  "https://nicolas-iatech.app.n8n.cloud/webhook/00ecea9a-7115-4ea9-a48a-8a0853a2f1cf/chat";
+const N8N_WEBHOOK = 'https://nicolas-iatech.app.n8n.cloud/webhook/00ecea9a-7115-4ea9-a48a-8a0853a2f1cf/chat';
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

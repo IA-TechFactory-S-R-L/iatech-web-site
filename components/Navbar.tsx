@@ -2,34 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS, APP_NAME } from '../constants';
 
 const IatechLogo: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 200 40" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Typography: I */}
-    <path d="M8 8V32" stroke="white" strokeWidth="3" strokeLinecap="round" />
+  <div className={`flex items-center gap-1 select-none ${className}`}>
     
-    {/* The Circuit 'A' */}
-    <g>
-      {/* Main Structure */}
-      <path d="M25 32L37.5 7L50 32" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      
-      {/* Circuit Nodes (Cyan & Dark Blue/Indigo) */}
-      <circle cx="37.5" cy="7" r="3" fill="#22D3EE" /> {/* Top Node - Cyan */}
-      <circle cx="25" cy="32" r="2" fill="#6366F1" />   {/* Base Left - Indigo */}
-      <circle cx="50" cy="32" r="2" fill="#6366F1" />   {/* Base Right - Indigo */}
-      
-      {/* Internal Connections */}
-      <path d="M29 23H46" stroke="#22D3EE" strokeWidth="2" /> {/* Crossbar Circuit */}
-      <circle cx="37.5" cy="23" r="1.5" fill="white" /> {/* Central Node */}
-      
-      {/* Data Line Extension */}
-      <path d="M50 32H55" stroke="#22D3EE" strokeWidth="1" strokeDasharray="2 2" />
-    </g>
+    
+    {/* Texto Principal: IATECH unido */}
+    <div className="relative flex items-center">
+      <span className="text-3xl font-extrabold tracking-tighter text-white leading-none">
+        IA<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">TECH</span>
+      </span>
+    </div>
 
-    {/* Typography: TECH */}
-    <text x="62" y="32" fontFamily="Inter, sans-serif" fontWeight="700" fontSize="24" fill="white" letterSpacing="-0.5">TECH</text>
-    
-    {/* Typography: S.R.L. */}
-    <text x="135" y="32" fontFamily="Inter, sans-serif" fontWeight="500" fontSize="10" fill="#94A3B8" letterSpacing="1">S.R.L.</text>
-  </svg>
+    {/* Texto Secundario: S.R.L. pequeño y alineado abajo */}
+    <span className="self-end mb-[2px] text-[0.65rem] font-bold tracking-widest text-slate-500 border-l border-slate-700 pl-2 ml-1">
+      S.R.L.
+    </span>
+  </div>
 );
 
 const Navbar: React.FC = () => {
@@ -69,7 +56,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center cursor-pointer group" onClick={(e) => handleNavClick(e as any, '#hero')}>
-           <IatechLogo className="h-9 w-auto group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] transition-all" />
+           <IatechLogo className="h-10 w-auto group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] transition-all" />
         </div>
 
         {/* Desktop Menu */}

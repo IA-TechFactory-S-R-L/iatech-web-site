@@ -28,22 +28,34 @@ const Soundbox: React.FC = () => {
               "Conectividad 4G/LTE autónoma.",
               "Batería de larga duración para retail.",
               "Anti-fraude: Solo suena si el dinero ingresó."
-            ].map((item, idx) => (
-              <RevealOnScroll key={idx} delay={idx * 100 + 300}>
-                <li className="flex items-start gap-3 text-slate-400">
-                  <svg className="w-6 h-6 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                  {item}
-                </li>
-              </RevealOnScroll>
-            ))}
+            ].map((item, idx) => {
+              const isAntiFraud = item.includes("Anti-fraude");
+              return (
+                <RevealOnScroll key={idx} delay={idx * 100 + 300}>
+                  <li className={`flex items-start gap-3 ${isAntiFraud ? 'text-cyan-300 font-bold' : 'text-slate-400'}`}>
+                    {isAntiFraud ? (
+                      // Shield Check Icon for Anti-fraud item
+                      <svg className="w-6 h-6 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                    ) : (
+                      // Default Check Icon
+                      <svg className="w-6 h-6 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    )}
+                    {item}
+                  </li>
+                </RevealOnScroll>
+              );
+            })}
           </ul>
 
           <RevealOnScroll delay={600}>
             <div className="pt-6">
-              <button className="px-8 py-3 bg-white text-midnight font-bold rounded hover:bg-slate-200 transition-colors">
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-8 py-3 bg-white text-midnight font-bold rounded hover:bg-slate-200 transition-colors"
+              >
                 Solicitar Demo Física
               </button>
-              <p className="mt-4 text-xs text-slate-500">
+              <p className="mt-4 text-xs text-slate-600">
                 *IATECH es un proveedor tecnológico. El procesamiento de pagos depende de la entidad financiera integrada.
               </p>
             </div>
@@ -62,7 +74,7 @@ const Soundbox: React.FC = () => {
                 {/* Screen */}
                 <div className="w-full h-24 bg-black rounded-xl border border-slate-700 flex items-center justify-center relative overflow-hidden">
                   <div className="text-cyan-400 font-mono text-2xl font-bold relative z-10">
-                    Bs. 150.00
+                    Bs. 150.00 / mes
                   </div>
                    <div className="absolute inset-0 bg-cyan-500/10 animate-pulse"></div>
                 </div>

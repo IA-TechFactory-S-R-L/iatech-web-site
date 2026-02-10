@@ -35,16 +35,19 @@ const Hero: React.FC = () => {
             Infraestructura Operativa V3.0
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
-            Infraestructura <br/>
+          <h1 className="text-6xl md:text-8xl font-bold text-white leading-tight tracking-tighter">
+            Inteligencia <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
-              Operativa Total
+              Físico-Digital
             </span>
           </h1>
           
           {/* Description - Highlighted keywords for scanning */}
           <p className="text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
             Fusionamos el <span className="text-slate-200 font-semibold">mundo físico</span> (Hardware y Logística) con el <span className="text-slate-200 font-semibold">digital</span> (Software e Inteligencia Artificial) para automatizar el flujo operativo de tu empresa.
+            <span className="block mt-4 text-slate-300 font-medium border-l-2 border-cyan-500/50 pl-4">
+              Logrando una eficiencia que impacta directamente en tu estado de resultados.
+            </span>
           </p>
           
           {/* Buttons - Clear hierarchy (Solid vs Outline) */}
@@ -58,11 +61,11 @@ const Hero: React.FC = () => {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
             </a>
             <a 
-              href="#soundbox" 
-              onClick={(e) => scrollToSection(e, 'soundbox')}
+              href="#ecosystem" 
+              onClick={(e) => scrollToSection(e, 'ecosystem')}
               className="px-8 py-4 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 rounded-lg font-medium transition-all flex items-center justify-center cursor-pointer hover:-translate-y-1 backdrop-blur-sm"
             >
-              Ver Soundbox
+              Explorar Soluciones
             </a>
           </div>
         </div>
