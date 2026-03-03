@@ -1,17 +1,18 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import LogoTicker from './components/LogoTicker';
-import About from './components/About';
-import Ecosystem from './components/Ecosystem';
-import Soundbox from './components/Soundbox';
-import Stats from './components/Stats';
-import Corporate from './components/Corporate';
-import UseCases from './components/UseCases';
-import ContactSection from './components/ContactSection';
-import Footer from './components/Footer';
-import ChatBot from './components/ChatBot';
-import VoiceAgent from './components/VoiceAgent';
+import React from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import LogoTicker from "./components/LogoTicker";
+import About from "./components/About";
+import Ecosystem from "./components/Ecosystem";
+import Soundbox from "./components/Soundbox";
+import Stats from "./components/Stats";
+import Corporate from "./components/Corporate";
+import UseCases from "./components/UseCases";
+import ContactSection from "./components/ContactSection";
+import Footer from "./components/Footer";
+import ChatBot from "./components/ChatBot";
+import WhatsAppButton from "./components/WhatsAppButton";
+import VoiceAgent from "./components/VoiceAgent";
 
 const App: React.FC = () => {
   return (
@@ -29,9 +30,10 @@ const App: React.FC = () => {
         <ContactSection />
       </main>
       <Footer />
-      
+
       {/* Floating Action Buttons / AI Tools */}
       <ChatBot />
+      <WhatsAppButton />
       <VoiceAgent />
     </div>
   );
