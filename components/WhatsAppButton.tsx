@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 
-const WhatsAppButton: React.FC = () => {
+interface WhatsAppButtonProps {
+  isHidden?: boolean;
+}
+
+const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ isHidden }) => {
   const [text, setText] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const phoneNumber = "59175274039";
+
+  if (isHidden) return null;
 
   const handleSend = () => {
     // Si no hay texto, abre WhatsApp normal, sino lo codifica.

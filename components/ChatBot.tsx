@@ -4,8 +4,12 @@ import { ChatMessage } from "../types";
 const N8N_WEBHOOK =
   "https://n8nd.iatechfactory.com/webhook/00ecea9a-7115-4ea9-a48a-8a0853a2f1cf/chat";
 
-const ChatBot: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface ChatBotProps {
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
+}
+
+const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onOpenChange }) => {
   const [input, setInput] = useState("");
   const [sessionId, setSessionId] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -183,7 +187,7 @@ const ChatBot: React.FC = () => {
     <>
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => onOpenChange(true)}
           className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 p-4 bg-cyan-500 hover:bg-cyan-400 text-white rounded-full shadow-lg transition-all hover:scale-110 group"
           aria-label="Abrir chat de soporte"
         >
@@ -216,7 +220,7 @@ const ChatBot: React.FC = () => {
               <span className="text-white font-bold">IATECH Assistant</span>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => onOpenChange(false)}
               className="text-slate-400 hover:text-white transition-colors"
             >
               <svg

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import LogoTicker from "./components/LogoTicker";
@@ -15,6 +15,8 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import VoiceAgent from "./components/VoiceAgent";
 
 const App: React.FC = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <div className="bg-midnight min-h-screen text-slate-200 selection:bg-cyan-500/30 font-sans">
       <Navbar />
@@ -32,8 +34,8 @@ const App: React.FC = () => {
       <Footer />
 
       {/* Floating Action Buttons / AI Tools */}
-      <ChatBot />
-      <WhatsAppButton />
+      <ChatBot isOpen={isChatOpen} onOpenChange={setIsChatOpen} />
+      <WhatsAppButton isHidden={isChatOpen} />
       <VoiceAgent />
     </div>
   );
